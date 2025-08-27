@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+
+  <body>
+  
+    <div class="demo-header">
+      <h2>👤 Información del Propietario - AWS Cloud Profile</h2>
+      <div class="alert alert-success demo-info">
+        <strong>☁️ Cloud Storage:</strong> Los datos se almacenan de forma segura en contenedores gestionados por Amazon EKS
+      </div>
+    </div>
+  
+    <div class="owner-card">
+      <table class="table table-striped modern-table" th:object="${owner}">
+        <tr>
+          <th>👤 Nombre Completo</th>
+          <td><b th:text="*{firstName + ' ' + lastName}"></b> <span class="tech-badge">Verified</span></td>
+        </tr>
+        <tr>
+          <th>🏠 Dirección</th>
+          <td th:text="*{address}"></td>
+        </tr>
+        <tr>
+          <th>🏙️ Ciudad</th>
+          <td th:text="*{city}"></td>
+        </tr>
+        <tr>
+          <th>📞 Teléfono</th>
+          <td th:text="*{telephone}"></td>
+        </tr>
+      </table>
+    </div>
+  
+    <div class="action-buttons">
+      <a th:href="@{{id}/edit(id=${owner.id})}" class="btn btn-primary modern-btn">
+        ✏️ Editar Propietario
+      </a>
+      <a th:href="@{{id}/pets/new(id=${owner.id})}" class="btn btn-primary modern-btn">
+        🐾 Agregar Nueva Mascota
+      </a>
+    </div>
+  
+    <br />
+    <div class="pets-section">
+      <h2>🐕 Mascotas y Visitas - Registro Modernizado</h2>
+      <div class="alert alert-info demo-info">
+        <strong>📊 Analytics Ready:</strong> Datos preparados para análisis con Amazon QuickSight y machine learning
+      </div>
+  
+    <table class="table table-striped">
+  
+      <tr th:each="pet : ${owner.pets}">
+        <td valign="top">
+          <dl class="dl-horizontal">
+            <dt>Name</dt>
+            <dd th:text="${pet.name}"></dd>
+            <dt>Birth Date</dt>
+            <dd
+              th:text="${#temporals.format(pet.birthDate, 'yyyy-MM-dd')}"></dd>
+            <dt>Type</dt>
+            <dd th:text="${pet.type}"></dd>
+          </dl>
+        </td>
+        <td valign="top">
+          <table class="table-condensed">
+            <thead>
+              <tr>
+                <th>Visit Date</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tr th:each="visit : ${pet.visits}">
+              <td th:text="${#temporals.format(visit.date, 'yyyy-MM-dd')}"></td>
+              <td th:text="${visit?.description}"></td>
+            </tr>
+            <tr>
+              <td><a
+                th:href="@{{ownerId}/pets/{petId}/edit(ownerId=${owner.id},petId=${pet.id})}">Edit
+                  Pet</a></td>
+              <td><a
+                th:href="@{{ownerId}/pets/{petId}/visits/new(ownerId=${owner.id},petId=${pet.id})}">Add
+                  Visit</a></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+  
+    </table>
+  
+  </body>
+
+</html>
