@@ -10,6 +10,8 @@ Este proyecto muestra cómo dar nueva vida a aplicaciones heredadas utilizando:
 
 La aplicación base es el clásico **Spring Petclinic**, completamente modernizado y preparado para correr en AWS.
 
+![](./docs/images/arq.png)
+
 ---
 
 ## 🚀 Ejecutar Localmente
