@@ -14,7 +14,7 @@ COPY src ./src
 FROM base AS development
 EXPOSE 8080 8000
 CMD ["./gradlew", "bootRun", "--no-daemon", \
-     "-Dspring-boot.run.profiles=h2", \
+     "-Dspring-boot.run.profiles=mysql", \
      "-Dspring-boot.run.jvmArguments='-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000'"]
 
 FROM base AS build
