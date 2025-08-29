@@ -1,0 +1,41 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="150" cy="150" r="145" fill="#8B4513" stroke="#654321" stroke-width="4"/>
+  
+  <!-- Dog face -->
+  <ellipse cx="150" cy="140" rx="100" ry="90" fill="#D2691E"/>
+  
+  <!-- Eyes -->
+  <circle cx="125" cy="120" r="12" fill="#000"/>
+  <circle cx="175" cy="120" r="12" fill="#000"/>
+  <circle cx="127" cy="116" r="4" fill="#FFF"/>
+  <circle cx="177" cy="116" r="4" fill="#FFF"/>
+  
+  <!-- Nose -->
+  <ellipse cx="150" cy="140" rx="8" ry="6" fill="#000"/>
+  
+  <!-- Mouth -->
+  <path d="M 140 155 Q 150 165 160 155" stroke="#000" stroke-width="2" fill="none"/>
+  <path d="M 150 145 Q 150 155 150 155" stroke="#000" stroke-width="2" fill="none"/>
+  
+  <!-- Ears -->
+  <ellipse cx="100" cy="90" rx="25" ry="40" fill="#8B4513" transform="rotate(-30 100 90)"/>
+  <ellipse cx="200" cy="90" rx="25" ry="40" fill="#8B4513" transform="rotate(30 200 90)"/>
+  
+  <!-- Inner ears -->
+  <ellipse cx="105" cy="95" rx="12" ry="20" fill="#DEB887" transform="rotate(-30 105 95)"/>
+  <ellipse cx="195" cy="95" rx="12" ry="20" fill="#DEB887" transform="rotate(30 195 95)"/>
+  
+  <!-- Collar -->
+  <rect x="80" y="210" width="140" height="20" rx="10" fill="#FF0000"/>
+  <rect x="145" y="215" width="10" height="10" rx="2" fill="#FFD700"/>
+  
+  <!-- Spots -->
+  <circle cx="120" cy="110" r="8" fill="#8B4513"/>
+  <circle cx="180" cy="160" r="12" fill="#8B4513"/>
+  <circle cx="110" cy="170" r="10" fill="#8B4513"/>
+  
+  <!-- Text -->
+  <text x="150" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#232F3E">BRUCE</text>
+  <text x="150" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#666">Demo Mascot</text>
+</svg>
