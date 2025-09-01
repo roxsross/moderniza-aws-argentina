@@ -47,7 +47,7 @@ aws cloudformation describe-stacks \
 ```bash
 aws cloudformation describe-stacks \
   --stack-name eks-mcp-additional-permissions \
-  --query 'Stacks[0].Outputs[?OutputKey==`ManagedPolicyArn`].OutputValue' \
+  --query 'Stacks[0].Outputs[?OutputKey==`AdditionalPolicyArn`].OutputValue' \
   --output text
 ```
 
