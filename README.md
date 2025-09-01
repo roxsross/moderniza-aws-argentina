@@ -1,6 +1,6 @@
 # Moderniza AWS Argentina 🇦🇷
 
-Repositorio demo para la sesión ## 🛠️ Prerrequisitos para AWS despliega en AWS con MCP y Amazon Q"** en el **AWS Community Day Argentina 2025**.
+Repositorio demo para la sesión **“Moderniza y despliega en AWS con MCP y Amazon Q”** en el **AWS Community Day Argentina**.
 
 Este proyecto muestra cómo dar nueva vida a aplicaciones heredadas utilizando:
 - ✨ **Amazon Q Developer CLI** para asistir en la modernización del código
