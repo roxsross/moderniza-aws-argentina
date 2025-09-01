@@ -163,6 +163,7 @@ Resources:
             Resource:
               - !GetAtt EKSClusterRole.Arn
               - !GetAtt EKSNodegroupRole.Arn
+              - "arn:aws:iam::*:role/eks-*-NodeInstanceRole-*"
             Condition:
               StringEquals:
                 iam:PassedToService:
@@ -190,6 +191,7 @@ Resources:
               - iam:ListInstanceProfiles
               - iam:GetPolicy
               - iam:GetPolicyVersion
+              - iam:ListPolicyVersions
               - iam:GetRolePolicy
               - iam:ListRolePolicies
               - iam:ListAttachedRolePolicies

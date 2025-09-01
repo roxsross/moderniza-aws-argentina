@@ -4,9 +4,9 @@ Esta carpeta contiene los archivos necesarios para desplegar la infraestructura 
 
 ## Archivos incluidos
 
-- `eksctl-cluster.yaml` - Configuración del cluster EKS con eksctl
-- `deploy-cluster.sh` - Script automatizado para desplegar el cluster
 - `iam-role/` - Roles IAM necesarios (CloudFormation)
+- `eks-automode/` - Cluster EKS con Auto Mode (recomendado)
+- `eks-nodegroup/` - Cluster EKS tradicional con Node Groups
 
 ## Prerrequisitos
 
@@ -36,7 +36,7 @@ aws cloudformation create-stack \
   --capabilities CAPABILITY_NAMED_IAM
 
 # 2. Ejecutar el script de despliegue
-./deploy-cluster.sh
+./eks-nodegroup/deploy-cluster.sh
 ```
 
 ## Configuración del cluster

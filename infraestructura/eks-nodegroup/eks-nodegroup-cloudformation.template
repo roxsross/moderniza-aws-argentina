@@ -1,6 +1,6 @@
-## Este archivo se generó automaricamente por Amazon Q Developer con EKS MCP
-## Dejamos este archivo como ejemplo, para mostrar qué hace EKS MCP para crear un Cluster
-## Para desplegar un Cluster en forma manual, sin usar MCP, seguir los pasos del README utilizando el archivo deploy-cluster.sh
+// Este archivo se generó automaricamente por Amazon Q Developer con EKS MCP
+// Dejamos este archivo como ejemplo, para mostrar qué hace EKS MCP para crear un Cluster
+// Para desplegar un Cluster en forma manual, sin usar MCP, seguir los pasos del README utilizando el archivo deploy-cluster.sh
 
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Amazon EKS Auto Mode Cluster with dedicated VPC - Using existing IAM roles
