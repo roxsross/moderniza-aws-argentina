@@ -1,14 +1,15 @@
-FROM amazoncorretto:11 AS base
+FROM amazoncorretto:21 AS base
 WORKDIR /app
 
-COPY gradle/ gradle/
+# Copiar archivos de configuración
+COPY build.gradle settings.gradle ./
+COPY gradle gradle
 COPY gradlew ./
 
-COPY build.gradle settings.gradle ./
+# Descargar dependencias
+RUN ./gradlew dependencies --no-daemon
 
-RUN echo "Descargando dependencias: $(date)" && \
-    ./gradlew dependencies --no-daemon || true
-
+# Copiar código fuente
 COPY src ./src
 
 FROM base AS development
@@ -18,8 +19,7 @@ CMD ["./gradlew", "bootRun", "--no-daemon", \
      "-Dspring-boot.run.jvmArguments='-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000'"]
 
 FROM base AS build
-RUN echo "Compilando proyecto: $(date)" && \
-    ./gradlew assemble --no-daemon
+RUN ./gradlew assemble --no-daemon
 
 FROM amazoncorretto:21 AS production
 WORKDIR /app

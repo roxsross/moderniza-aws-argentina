@@ -1,21 +1,19 @@
 plugins {
-  id 'org.springframework.boot' version '2.6.6'
-  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+  id 'org.springframework.boot' version '3.5.0'
+  id 'io.spring.dependency-management' version '1.1.6'
   id 'java'
 }
 
-apply plugin: 'java'
-
 group = 'org.springframework.samples'
-version = '2.6.0'
-sourceCompatibility = '11'
+version = '3.5.0'
+sourceCompatibility = '21'
 
 repositories {
   mavenCentral()
 }
 
-ext.webjarsFontawesomeVersion = "4.7.0"
-ext.webjarsBootstrapVersion = "5.1.3"
+ext.webjarsFontawesomeVersion = "6.4.0"
+ext.webjarsBootstrapVersion = "5.3.3"
 
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-cache'
@@ -23,19 +21,25 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-validation'
-  implementation 'javax.cache:cache-api'
-  runtimeOnly 'org.springframework.boot:spring-boot-starter-actuator'
+  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+  
+  // Jakarta XML Bind para Spring Boot 3.x
+  implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.0'
+  implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.0'
+  
+  // Cache API (usar javax.cache que viene con Spring Boot)
+  implementation 'javax.cache:cache-api:1.1.1'
+  
   runtimeOnly 'org.webjars:webjars-locator-core'
-  runtimeOnly "org.webjars.npm:bootstrap:${webjarsBootstrapVersion}"
-  runtimeOnly "org.webjars.npm:font-awesome:${webjarsFontawesomeVersion}"
-  runtimeOnly 'org.ehcache:ehcache'
+  runtimeOnly "org.webjars:bootstrap:${webjarsBootstrapVersion}"
+  runtimeOnly "org.webjars:font-awesome:${webjarsFontawesomeVersion}"
+  runtimeOnly 'org.ehcache:ehcache:3.10.8'
   runtimeOnly 'com.h2database:h2'
-  runtimeOnly 'mysql:mysql-connector-java'
+  runtimeOnly 'com.mysql:mysql-connector-j'
   runtimeOnly 'org.postgresql:postgresql'
   developmentOnly 'org.springframework.boot:spring-boot-devtools'
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
-
 test {
   useJUnitPlatform()
 }
