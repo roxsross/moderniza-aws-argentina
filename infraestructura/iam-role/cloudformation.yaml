@@ -29,6 +29,7 @@ Resources:
               - eks:CreateCluster
               - eks:DeleteCluster
               - eks:DescribeCluster
+              - eks:DescribeClusterVersions
               - eks:ListClusters
               - eks:UpdateClusterVersion
               - eks:UpdateClusterConfig
