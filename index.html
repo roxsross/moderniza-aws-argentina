@@ -19,7 +19,7 @@
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
       background: radial-gradient(1200px 600px at 70% -10%, #1f2a56 0%, #0b1020 55%, #070a16 100%);
       color: var(--text);
       display: grid;
@@ -37,59 +37,22 @@
       padding: 20px;
       overflow: hidden;
     }
-    .banner {
-      width: 100%;
-      height: auto;
-      border-radius: calc(var(--radius) - 6px);
-      display: block;
-    }
-    h1 {
-      font-size: clamp(1.4rem, 2.2vw + 1rem, 2.4rem);
-      margin: 18px 0 8px;
-      line-height: 1.15;
-    }
+    .banner { width: 100%; height: auto; border-radius: calc(var(--radius) - 6px); display: block; }
+    h1 { font-size: clamp(1.4rem, 2.2vw + 1rem, 2.4rem); margin: 18px 0 8px; line-height: 1.15; }
     p.sub { color: var(--muted); margin: 0 0 24px; }
-    .links {
-      display: grid;
-      gap: 14px;
-      grid-template-columns: 1fr;
-    }
-    @media (min-width: 680px) {
-      .links { grid-template-columns: 1fr 1fr; }
-    }
+    .links { display: grid; gap: 14px; grid-template-columns: 1fr; }
+    @media (min-width: 680px) { .links { grid-template-columns: 1fr 1fr; } }
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      color: var(--text);
+      display: inline-flex; align-items: center; justify-content: center;
+      text-decoration: none; color: var(--text);
       background: linear-gradient(180deg, var(--btn), #141f52);
-      padding: 14px 16px;
-      border-radius: 14px;
-      font-weight: 600;
-      letter-spacing: .2px;
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: transform .08s ease, background .2s ease, box-shadow .2s ease;
+      padding: 14px 16px; border-radius: 14px; font-weight: 600; letter-spacing: .2px;
+      border: 1px solid rgba(255,255,255,0.08); transition: transform .08s ease, background .2s ease, box-shadow .2s ease;
       box-shadow: 0 6px 18px rgba(0,0,0,.35);
     }
     .btn:hover { background: var(--btn-hover); transform: translateY(-1px); }
-    footer {
-      margin-top: 22px;
-      font-size: .9rem;
-      color: #c7d2fe;
-      opacity: .9;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .chip {
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: .85rem;
-    }
+    footer { margin-top: 22px; font-size: .9rem; color: #c7d2fe; opacity: .9; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .chip { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); padding: 6px 10px; border-radius: 999px; font-size: .85rem; }
   </style>
 </head>
 <body>
@@ -98,7 +61,8 @@
     <h1>Moderniza y despliega en AWS con MCP y Amazon Q</h1>
     <p class="sub">Accedé a todos los recursos de la demo en un solo lugar 🔗</p>
     <section class="links">
-      <a class="btn" href="https://www.youtube.com/watch?v=4BiDPqOmN5g" target="_blank" rel="noopener">🎥 Ver demo en YouTube</a>
+      <a class="btn" href="https://www.instagram.com/bruce.funes" target="_blank" rel="noopener">📸 Bruce en Instagram</a>
+<a class="btn" href="https://www.youtube.com/watch?v=4BiDPqOmN5g" target="_blank" rel="noopener">🎥 Ver demo en YouTube</a>
 <a class="btn" href="https://www.linkedin.com/in/roxsross/" target="_blank" rel="noopener">👩🏻‍💻 Rossana Suárez (LinkedIn)</a>
 <a class="btn" href="https://www.linkedin.com/in/matiasanoniz/" target="_blank" rel="noopener">👨🏻‍💻 Matias Anoniz (LinkedIn)</a>
 <a class="btn" href="https://github.com/roxsross/moderniza-aws-argentina" target="_blank" rel="noopener">📦 Repositorio en GitHub</a>
