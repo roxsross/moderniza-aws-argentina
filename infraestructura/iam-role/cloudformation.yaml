@@ -1,0 +1,301 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  IAM para Amazon Q Developer + EKS MCP: permisos para EKS, CloudFormation, EC2 (network),
+  ECR (build/push) y PassRole a roles de Cluster y Nodegroup. No crea usuarios IAM.
+
+Parameters:
+  PolicyName:
+    Type: String
+    Default: AmazonQDeveloperEKSMCPPolicy
+    Description: Nombre de la customer-managed policy a crear.
+  RolePath:
+    Type: String
+    Default: /
+    Description: Path opcional para los roles creados.
+
+Resources:
+  QDevManagedPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: !Ref PolicyName
+      Path: !Ref RolePath
+      Description: Permisos para Q Developer + EKS MCP (EKS/CFN/EC2/ECR) y PassRole a roles de EKS.
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: EKSCore
+            Effect: Allow
+            Action:
+              - eks:CreateCluster
+              - eks:DeleteCluster
+              - eks:DescribeCluster
+              - eks:ListClusters
+              - eks:UpdateClusterVersion
+              - eks:UpdateClusterConfig
+              - eks:CreateNodegroup
+              - eks:DeleteNodegroup
+              - eks:DescribeNodegroup
+              - eks:ListNodegroups
+              - eks:UpdateNodegroupConfig
+              - eks:UpdateNodegroupVersion
+              - eks:TagResource
+              - eks:UntagResource
+              - eks:ListTagsForResource
+              - eks:CreateAccessEntry
+              - eks:DeleteAccessEntry
+              - eks:DescribeAccessEntry
+              - eks:ListAccessEntries
+              - eks:AssociateAccessPolicy
+              - eks:DisassociateAccessPolicy
+              - eks:ListAssociatedAccessPolicies
+              - eks:CreateAddon
+              - eks:DeleteAddon
+              - eks:DescribeAddon
+              - eks:ListAddons
+              - eks:UpdateAddon
+              - eks:DescribeInsight
+              - eks:ListInsights
+            Resource: "*"
+
+          - Sid: CloudFormation
+            Effect: Allow
+            Action:
+              - cloudformation:CreateStack
+              - cloudformation:UpdateStack
+              - cloudformation:DeleteStack
+              - cloudformation:DescribeStacks
+              - cloudformation:DescribeStackEvents
+              - cloudformation:DescribeStackResources
+              - cloudformation:GetTemplate
+              - cloudformation:ListStacks
+              - cloudformation:ListStackResources
+              - cloudformation:ValidateTemplate
+              - cloudformation:CreateChangeSet
+              - cloudformation:DeleteChangeSet
+              - cloudformation:DescribeChangeSet
+              - cloudformation:ExecuteChangeSet
+              - cloudformation:ListChangeSets
+              - cloudformation:GetStackPolicy
+              - cloudformation:SetStackPolicy
+            Resource: "*"
+
+          - Sid: EC2Networking
+            Effect: Allow
+            Action:
+              - ec2:CreateVpc
+              - ec2:DeleteVpc
+              - ec2:ModifyVpcAttribute
+              - ec2:CreateSubnet
+              - ec2:DeleteSubnet
+              - ec2:ModifySubnetAttribute
+              - ec2:CreateInternetGateway
+              - ec2:AttachInternetGateway
+              - ec2:DetachInternetGateway
+              - ec2:DeleteInternetGateway
+              - ec2:CreateRouteTable
+              - ec2:AssociateRouteTable
+              - ec2:DisassociateRouteTable
+              - ec2:DeleteRouteTable
+              - ec2:CreateRoute
+              - ec2:DeleteRoute
+              - ec2:ReplaceRoute
+              - ec2:CreateNatGateway
+              - ec2:DeleteNatGateway
+              - ec2:AllocateAddress
+              - ec2:ReleaseAddress
+              - ec2:AssociateAddress
+              - ec2:DisassociateAddress
+              - ec2:CreateSecurityGroup
+              - ec2:DeleteSecurityGroup
+              - ec2:AuthorizeSecurityGroupIngress
+              - ec2:RevokeSecurityGroupIngress
+              - ec2:AuthorizeSecurityGroupEgress
+              - ec2:RevokeSecurityGroupEgress
+              - ec2:CreateTags
+              - ec2:DeleteTags
+              - ec2:CreateNetworkInterface
+              - ec2:DeleteNetworkInterface
+              - ec2:AttachNetworkInterface
+              - ec2:DetachNetworkInterface
+              - ec2:ModifyNetworkInterfaceAttribute
+              - ec2:CreateLaunchTemplate
+              - ec2:DeleteLaunchTemplate
+              - ec2:CreateLaunchTemplateVersion
+              - ec2:DeleteLaunchTemplateVersions
+              - ec2:ModifyLaunchTemplate
+              - ec2:RunInstances
+              - ec2:TerminateInstances
+              - ec2:Describe*
+              - ec2:GetConsoleOutput
+            Resource: "*"
+
+          - Sid: CloudWatchLogs
+            Effect: Allow
+            Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+              - logs:DescribeLogGroups
+              - logs:DescribeLogStreams
+              - logs:FilterLogEvents
+              - logs:StartQuery
+              - logs:StopQuery
+              - logs:GetQueryResults
+              - logs:DescribeQueries
+              - logs:GetLogEvents
+            Resource: "*"
+
+          - Sid: CloudWatchMetrics
+            Effect: Allow
+            Action:
+              - cloudwatch:GetMetricData
+              - cloudwatch:GetMetricStatistics
+              - cloudwatch:ListMetrics
+              - cloudwatch:DescribeAlarms
+              - cloudwatch:PutMetricData
+            Resource: "*"
+
+          - Sid: PassOnlyOurEKSServiceRoles
+            Effect: Allow
+            Action:
+              - iam:PassRole
+              - iam:GetRole
+            Resource:
+              - !GetAtt EKSClusterRole.Arn
+              - !GetAtt EKSNodegroupRole.Arn
+            Condition:
+              StringEquals:
+                iam:PassedToService:
+                  - eks.amazonaws.com
+                  - ec2.amazonaws.com
+
+          - Sid: CreateServiceLinkedRolesIfMissing
+            Effect: Allow
+            Action:
+              - iam:CreateServiceLinkedRole
+              - iam:GetRole
+            Resource: "*"
+            Condition:
+              StringEquals:
+                iam:AWSServiceName:
+                  - eks.amazonaws.com
+                  - eks-nodegroup.amazonaws.com
+                  - spot.amazonaws.com
+
+          - Sid: ReadOnlyHelpers
+            Effect: Allow
+            Action:
+              - iam:ListRoles
+              - iam:GetInstanceProfile
+              - iam:ListInstanceProfiles
+              - iam:GetPolicy
+              - iam:GetPolicyVersion
+              - iam:GetRolePolicy
+              - iam:ListRolePolicies
+              - iam:ListAttachedRolePolicies
+              - iam:ListPolicies
+              - iam:ListInstanceProfilesForRole
+              - iam:GetUser
+              - iam:GetGroup
+              - iam:ListUsers
+              - iam:ListGroups
+              - iam:GetRole
+            Resource: "*"
+
+          - Sid: IAMPolicyManagement
+            Effect: Allow
+            Action:
+              - iam:PutRolePolicy
+              - iam:DeleteRolePolicy
+              - iam:AttachRolePolicy
+              - iam:DetachRolePolicy
+              - iam:CreateRole
+              - iam:DeleteRole
+              - iam:UpdateRole
+              - iam:TagRole
+              - iam:UntagRole
+              - iam:CreateInstanceProfile
+              - iam:DeleteInstanceProfile
+              - iam:AddRoleToInstanceProfile
+              - iam:RemoveRoleFromInstanceProfile
+            Resource: 
+              - !GetAtt EKSClusterRole.Arn
+              - !GetAtt EKSNodegroupRole.Arn
+              - "arn:aws:iam::*:role/eks-*"
+              - "arn:aws:iam::*:instance-profile/eks-*"
+
+          - Sid: STSAssumeRole
+            Effect: Allow
+            Action:
+              - sts:AssumeRole
+              - sts:GetCallerIdentity
+              - sts:AssumeRoleWithWebIdentity
+            Resource: "*"
+
+          - Sid: AutoScalingForNodeGroups
+            Effect: Allow
+            Action:
+              - autoscaling:CreateAutoScalingGroup
+              - autoscaling:UpdateAutoScalingGroup
+              - autoscaling:DeleteAutoScalingGroup
+              - autoscaling:DescribeAutoScalingGroups
+              - autoscaling:DescribeAutoScalingInstances
+              - autoscaling:DescribeLaunchConfigurations
+              - autoscaling:DescribeScalingActivities
+              - autoscaling:CreateLaunchConfiguration
+              - autoscaling:DeleteLaunchConfiguration
+              - autoscaling:SetDesiredCapacity
+              - autoscaling:TerminateInstanceInAutoScalingGroup
+            Resource: "*"
+
+  # Rol que el control plane de EKS asume para operar (LBs/ENIs/tags, etc.)
+  EKSClusterRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "EKSClusterRole-${AWS::StackName}"
+      Path: !Ref RolePath
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: eks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy  # Requerido por EKS
+      Tags:
+        - Key: eks.mcp
+          Value: cluster-role
+
+  # Rol para Managed Node Groups (rol de instancia EC2 de los nodos)
+  # Nota: para producción, se recomienda mover AmazonEKS_CNI_Policy a IRSA del aws-node (CNI).
+  EKSNodegroupRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "EKSNodegroupRole-${AWS::StackName}"
+      Path: !Ref RolePath
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      Tags:
+        - Key: eks.mcp
+          Value: nodegroup-role
+
+Outputs:
+  ManagedPolicyArn:
+    Description: ARN de la policy para adjuntar al Permission Set de SSO.
+    Value: !Ref QDevManagedPolicy
+  EKSClusterRoleArn:
+    Description: ARN del rol que usara el cluster EKS.
+    Value: !GetAtt EKSClusterRole.Arn
+  EKSNodegroupRoleArn:
+    Description: ARN del rol para Node Groups (instancias de nodo).
+    Value: !GetAtt EKSNodegroupRole.Arn

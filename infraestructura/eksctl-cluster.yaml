@@ -1,0 +1,27 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: petclinic-cluster
+  region: us-east-1
+  version: "1.30"
+
+managedNodeGroups:
+  - name: petclinic-nodes
+    instanceType: t3.medium
+    minSize: 2
+    maxSize: 4
+    desiredCapacity: 2
+    volumeSize: 20
+    volumeType: gp3
+    labels:
+      role: worker
+      environment: demo
+    tags:
+      Environment: demo
+      Project: petclinic-modernization
+      ManagedBy: eksctl
+
+cloudWatch:
+  clusterLogging:
+    enableTypes: ["api", "audit", "authenticator", "controllerManager", "scheduler"]

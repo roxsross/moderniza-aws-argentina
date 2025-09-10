@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'vets')}">
+
+<body>
+
+<div class="demo-header">
+  <h2>👩‍⚕️ Veterinarios - Demo AWS Modernization</h2>
+  <div class="alert alert-info demo-info">
+    <small><strong>🚀 Demo Feature:</strong> Esta tabla muestra datos almacenados en base de datos containerizada, desplegada en Amazon EKS</small>
+  </div>
+  <div class="action-buttons mb-3">
+    <a class="btn btn-success modern-btn" th:href="@{/vets/new}">
+      🩺 Agregar Nuevo Veterinario
+    </a>
+  </div>
+</div>
+
+<table id="vets" class="table table-striped">
+  <thead>
+  <tr>
+    <th>👤 Nombre</th>
+    <th>🏥 Especialidades</th>
+    <th>🏆 Modernización</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="vet : ${listVets}">
+    <td th:text="${vet.firstName + ' ' + vet.lastName}"></td>
+    <td>
+      <span th:each="specialty : ${vet.specialties}" th:text="${specialty.name + ' '}" class="specialty-badge"/>
+      <span th:if="${vet.nrOfSpecialties == 0}" class="no-specialties">General Practice</span>
+    </td>
+    <td>
+      <span class="tech-badge eks">EKS Ready</span>
+      <span class="tech-badge">Cloud Native</span>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<div th:if="${totalPages > 1}">
+  <span>Pages:</span>
+  <span>[</span>
+  <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+      <a th:if="${currentPage != i}" th:href="@{'/vets.html/?page=' + ${i}}">[[${i}]]</a>
+      <span th:unless="${currentPage != i}">[[${i}]]</span>
+    </span>
+  <span>]&nbsp;</span>
+  <span>
+      <a th:if="${currentPage > 1}" th:href="@{'/vets.html/?page=1'}" title="First"
+         class="fa fa-fast-backward"></a>
+      <span th:unless="${currentPage > 1}" title="First" class="fa fa-fast-backward"></span>
+    </span>
+  <span>
+      <a th:if="${currentPage > 1}" th:href="@{'/vets.html/?page=' + ${currentPage - 1}}" title="Previous"
+         class="fa fa-step-backward"></a>
+      <span th:unless="${currentPage > 1}" title="Previous" class="fa fa-step-backward"></span>
+    </span>
+  <span>
+      <a th:if="${currentPage < totalPages}" th:href="@{'/vets.html/?page=' + ${currentPage + 1}}" title="Next"
+         class="fa fa-step-forward"></a>
+      <span th:unless="${currentPage < totalPages}" title="Next" class="fa fa-step-forward"></span>
+    </span>
+  <span>
+      <a th:if="${currentPage < totalPages}" th:href="@{'/vets.html/?page=' + ${totalPages}}" title="Last"
+         class="fa fa-fast-forward"></a>
+      <span th:unless="${currentPage < totalPages}" title="Last" class="fa fa-fast-forward"></span>
+    </span>
+</div>
+
+<div class="demo-tech-info">
+  <h5>🛠️ Tecnologías utilizadas en la gestión de veterinarios:</h5>
+  <div class="tech-badges">
+    <span class="tech-badge">Spring Data JPA</span>
+    <span class="tech-badge">Thymeleaf Templates</span>
+    <span class="tech-badge mcp">Paginación Nativa</span>
+    <span class="tech-badge eks">Database Containerizada</span>
+    <span class="tech-badge">AWS RDS Compatible</span>
+  </div>
+</div>
+
+</body>
+</html>

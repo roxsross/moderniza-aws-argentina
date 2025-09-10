@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'error')}">
+
+  <body>
+    <div class="text-center error-page-demo">
+      <div class="bruce-error-container">
+        <img src="../static/resources/images/bruce.jpeg?v=2025" 
+             th:src="@{/resources/images/bruce.jpeg(v=${#dates.format(#dates.createNow(),'yyyyMMddHHmmss')})}" 
+             alt="Bruce - Mascota Demo PetClinic"
+             class="error-bruce-image bruce-image"
+             loading="eager"
+             decoding="async"
+             onerror="console.error('Error loading Bruce image:', this.src)"/>
+        <div class="bruce-error-speech">
+          <p>¡Woof! Algo no salió como esperábamos...</p>
+        </div>
+      </div>
+      
+      <h2>🚨 Oops! Algo salió mal en nuestra demo...</h2>
+      
+      <div class="alert alert-warning demo-error-alert">
+        <h4 class="alert-heading">🔧 Error de Demostración</h4>
+        <p>Este error es parte de la demo para mostrar el manejo de errores en aplicaciones modernizadas con AWS.</p>
+        <p class="mb-0"><strong>Mensaje del sistema:</strong> <span th:text="${message}">Expected: controller used to showcase what happens when an exception is thrown</span></p>
+      </div>
+      
+      <div class="demo-info-box aws-production-info">
+        <h5 class="production-title">💡 En un entorno de producción:</h5>
+        <ul class="production-features">
+          <li>🔍 Los errores se capturarían con <strong>AWS CloudWatch</strong></li>
+          <li>📬 Las alertas se enviarían via <strong>Amazon SNS</strong></li>
+          <li>📊 Los logs se analizarían con <strong>AWS X-Ray</strong></li>
+          <li>🤖 <strong>Amazon Q</strong> ayudaría a diagnosticar problemas</li>
+        </ul>
+      </div>
+      
+      <a th:href="@{/}" class="btn btn-primary error-home-btn">🏠 VOLVER AL INICIO</a>
+    </div>
+  </body>
+
+</html>

@@ -1,0 +1,54 @@
+<html xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+
+<body>
+
+  <div class="demo-header">
+    <h2>🔍 Buscar Propietarios - Amazon Q Assisted Search</h2>
+    <div class="alert alert-info demo-info">
+      <strong>🤖 AI Enhancement:</strong> Esta búsqueda ha sido optimizada con Amazon Q para mejor rendimiento y experiencia de usuario
+    </div>
+  </div>
+
+  <form th:object="${owner}" th:action="@{/owners}" method="get"
+    class="form-horizontal modern-form" id="search-owner-form">
+    <div class="form-group">
+      <div class="control-group" id="lastNameGroup">
+        <label class="col-sm-2 control-label">🏷️ Apellido </label>
+        <div class="col-sm-10">
+          <input class="form-control modern-input" th:field="*{lastName}" size="30"
+            maxlength="80" placeholder="Ingrese el apellido del propietario..." /> 
+          <span class="help-inline">
+            <div th:if="${#fields.hasAnyErrors()}">
+              <p th:each="err : ${#fields.allErrors()}" th:text="${err}" class="error-message">Error</p>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10 button-group">
+        <button type="submit" class="btn btn-primary modern-btn">
+          🔍 Buscar Propietario
+        </button>
+        <a class="btn btn-primary modern-btn" th:href="@{/owners/new}">
+          ➕ Agregar Propietario
+        </a>
+      </div>
+    </div>
+  </form>
+
+  <div class="demo-tech-info">
+    <h5>🛠️ Tecnologías utilizadas en esta búsqueda:</h5>
+    <div class="tech-badges">
+      <span class="tech-badge">Spring Data JPA</span>
+      <span class="tech-badge mcp">Containerized DB</span>
+      <span class="tech-badge eks">K8s Service Discovery</span>
+      <span class="tech-badge">AWS RDS Compatible</span>
+    </div>
+  </div>
+
+  </form>
+
+</body>
+</html>
